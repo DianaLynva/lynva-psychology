@@ -7,7 +7,9 @@ import uglify from 'gulp-uglify';
 import gulpBrowserSync from 'browser-sync';
 import imagemin, {gifsicle, mozjpeg, optipng, svgo} from 'gulp-imagemin';
 import webp from 'gulp-webp';
+import path from 'path';
 import {deleteAsync} from 'del';
+import ttf2woff2 from 'ttf2woff2';
 
 const {src, dest, series, watch, parallel} = pkg;
 const scss = gulpSass(sass);
@@ -51,8 +53,7 @@ function scripts() {
 
 // Start of optimization of images
 function resizeImages() {
-  // return src('app/images/**/*.*')
-  return src('app/images/**/*.*', {base: 'app/images'})
+  return src('app/images/**/*.{png,jpeg,jpg,gif,svg,ico}', {base: 'app/images'})
   .pipe(imagemin([
     gifsicle({
       interlaced: true
@@ -85,21 +86,38 @@ function convertToWebp() {
   .pipe(dest('app/images'))
 }
 
-async function deleteJpgAndGif() {
-  await deleteAsync('app/images/**/*.{png,jpeg,jpg}')
-}
-
 function moveImages() {
-  return src('app/images/**/*.*', {base: 'app/images'})
+  return src('app/images/**/*.{gif,webp,svg,ico}', {base: 'app/images'})
   .pipe(dest('dist/images'))
 }
+
+async function deleteRelatedImg(imgPath) {
+  const ext = path.extname(imgPath);
+  const baseName = path.basename(imgPath, ext);
+  const dir = path.dirname(imgPath);
+
+  const filesToRemove = [
+    path.join(dir, baseName + '.webp')
+  ];
+
+  await deleteAsync(filesToRemove, {force: true});
+}
 // End of optimization of images
+
+// Start of fonts optimization
+function optimizeFonts() {
+  return src('app/fonts/**/*.ttf', {base: 'app/fonts'})
+  .pipe(ttf2woff2())
+  .pipe(dest('app/fonts'))
+}
+// End of fonts optimization
 
 function building() {
   return src([
     'app/**/*.html',
     'app/css/style.min.css',
-    'app/js/main.min.js'
+    'app/js/main.min.js',
+    'app/fonts/**/*.woff2'
   ], {base: 'app'})
   .pipe(dest('dist'))
 }
@@ -109,14 +127,20 @@ async function cleanDist() {
 }
 
 function watcher() {
+  const imagesWatcher = watch(['app/images/**/*.{png,jpeg,jpg,gif,svg,ico}']);
+  
   watch(['app/scss/**/*.scss'], styles);
+  watch(['app/fonts/**/*.ttf'], optimizeFonts);
   watch(['app/js/**/*.js', '!app/js/main.min.js'], scripts);
-  watch(['app/**/*.html']).on('change', browserSync.reload); 
+  watch(['app/**/*.html']).on('change', browserSync.reload);
+
+  imagesWatcher.on('change', series(resizeImages, convertToWebp));
+  imagesWatcher.on('add', series(resizeImages, convertToWebp));
+  imagesWatcher.on('unlink', async (imgPath) => {
+    await deleteRelatedImg(imgPath);
+  });
 }
 
-
 export const clean = series(cleanDist);
-export const img = series(resizeImages, convertToWebp, deleteJpgAndGif, moveImages);
-
 export const build = series(cleanDist, moveImages, building);
 export const start = parallel(styles, scripts, browserUpdate, watcher);
