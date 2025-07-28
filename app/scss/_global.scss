@@ -1,3 +1,14 @@
-body {
+@import 'vars';
+@import 'mixins';
+@import 'fonts';
 
+.page {
+  height: var(--vh);
+  font-family: var(--ff-primary);
+  font-weight: var(--fw-bold);
+  font-style: normal;
+  font-size: clamp(20px, 1.5vw, 24px);
+  line-height: 1.8;
+  letter-spacing: 0.02em; 
+  color: var(--color-black);
 }

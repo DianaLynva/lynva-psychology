@@ -9,7 +9,7 @@ import imagemin, {gifsicle, mozjpeg, optipng, svgo} from 'gulp-imagemin';
 import webp from 'gulp-webp';
 import path from 'path';
 import {deleteAsync} from 'del';
-import ttf2woff2 from 'ttf2woff2';
+import ttf2woff2 from 'gulp-ttf2woff2';
 
 const {src, dest, series, watch, parallel} = pkg;
 const scss = gulpSass(sass);
@@ -142,5 +142,6 @@ function watcher() {
 }
 
 export const clean = series(cleanDist);
+export const fonts = series(optimizeFonts);
 export const build = series(cleanDist, moveImages, building);
 export const start = parallel(styles, scripts, browserUpdate, watcher);

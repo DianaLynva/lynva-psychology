@@ -7,3 +7,5 @@ npm-debug.*
 
 node_modules/
 app/css/*
+app/fonts/**/*.*
+!app/fonts/**/*.woff2
