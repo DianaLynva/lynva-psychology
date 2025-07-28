@@ -1,3 +1,9 @@
+html, 
+body {
+  scroll-behavior: smooth;
+  overscroll-behavior-y: none;
+}
+
 html {
   box-sizing: border-box;
 }

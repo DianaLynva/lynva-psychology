@@ -1,0 +1,7 @@
+@import 'vars';
+@import 'mixins';
+
+// @include font-woff($font-family, $url, $weight, $style)
+@include font-woff(var(--ff-primary), '../fonts/inter/inter-regular', var(--fw-regular));
+@include font-woff(var(--ff-primary), '../fonts/inter/inter-medium', var(--fw-medium));
+@include font-woff(var(--ff-primary), '../fonts/inter/inter-bold', var(--fw-bold));
