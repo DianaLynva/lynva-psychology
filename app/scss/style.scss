@@ -3,7 +3,150 @@
 @import 'mixins';
 @import 'fonts';
 @import 'global';
-
-
 @import 'media';
 
+.header {
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  padding: clamp(16px, 1.4vh, 32px) 0;
+  background-color: var(--color-white);
+  transition: transform 0.3s ease-out;
+
+  &.hide {
+    transform: translateY(-100%);
+  }
+
+  &.scroll {
+    border-bottom: 4px solid var(--color-orange-500);
+  }
+
+  .logo {
+    transition: transform 0.4s ease-in-out;
+
+    &:hover {
+      position: relative;
+      transform: scale(1.03);
+    }
+
+    &__img {
+      height: auto;
+    }
+  }
+}
+
+.nav {
+  @include flex-space;
+  gap: clamp(16px, 6vw, 80px);
+
+  &__inner,
+  &__menu {
+    @include flex-space;
+  }
+
+  &__inner {
+    gap: clamp(16px, 6vw, 80px);
+    max-width: 840px;
+    width: 100%;
+  }
+
+  &__item {
+    &:not(:last-of-type) {
+      margin-right: clamp(16px, 1.6rem, 30px);
+    }
+
+    a {
+      font-weight: var(--fw-medium);
+    }
+  }
+
+  &__link {
+    font-size: clamp(18px, 1.5vw, 21px);
+    color: var(--color-black);
+    line-height: 1;
+    letter-spacing: 0;
+  }
+}
+
+.main {
+  min-height: 500vh;
+  background-color: rgb(74, 74, 140);
+}
+
+@include media(tablet, max) {
+  .header {
+    &.hide {
+      transform: translateY(0);
+    }
+
+    &.scroll {
+      border-bottom: 0px solid transparent;
+    }
+  }
+
+  .logo {
+    width: 40%;
+  }
+
+  .nav {
+
+    &__inner,
+    &__menu {
+      display: block;
+    }
+
+    &__inner {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      z-index: 10;
+      height: var(--vh);
+      width: 40%;
+      padding: var(--content-offset) var(--content-offset) 0;
+      background-color: var(--color-white);
+      transform: translateY(-120%);
+      pointer-events: none;
+      opacity: 0;
+      z-index: -100;
+      transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+
+      &.open {
+        transform: translateY(0);
+        pointer-events: all;
+        opacity: 1;
+        z-index: 10;
+      }
+    }
+
+    &__item {
+      margin-bottom: clamp(16px, 1.2vh, 30px);
+
+      &:not(:last-of-type) {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+@include media(mobile-m, max) {
+  .nav {
+    &__inner {
+      width: 60%;
+    }
+  }
+}
+
+@include media(mobile-s, max) {
+  .nav {
+    &__inner {
+      width: 100%;
+      text-align: right;
+      padding-right: 40px;
+      border-top: 3px solid transparent;
+
+      &.open {
+        border-top: 3px solid var(--color-orange-500)
+      }
+    }
+  }
+}
