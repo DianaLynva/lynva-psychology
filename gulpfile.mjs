@@ -50,10 +50,9 @@ function scripts() {
   .pipe(browserSync.stream())
 }
 
-
 // Start of optimization of images
 function resizeImages() {
-  return src('app/images/**/*.{png,jpeg,jpg,gif,svg,ico}', {base: 'app/images'})
+  return src('app/images/src/**/*.{png,jpeg,jpg,gif,svg,ico}', {base: 'app/images/src'})
   .pipe(imagemin([
     gifsicle({
       interlaced: true
@@ -77,30 +76,28 @@ function resizeImages() {
       ]
     })
   ]))
+  .pipe(dest('app/images/optimized'))
+}
+
+function moveOptimizedImages() {
+  return src('app/images/optimized/**/*.*', {base: 'app/images/optimized'})
   .pipe(dest('app/images'))
 }
 
 function convertToWebp() {
-  return src('app/images/**/*.{png,jpeg,jpg}', {base: 'app/images'})
+  return src('app/images/optimized/**/*.{png,jpeg,jpg}', {base: 'app/images/optimized'})
   .pipe(webp())
+  .pipe(dest('app/images/webp'))
+}
+
+function moveWebpImages() {
+  return src('app/images/webp/**/*.webp', {base: 'app/images/webp'})
   .pipe(dest('app/images'))
 }
 
-function moveImages() {
-  return src('app/images/**/*.{gif,webp,svg,ico}', {base: 'app/images'})
+function transferImages() {
+  return src(['app/images/**/*.*', '!app/images/optimized/**/*.*', '!app/images/src/**/*.*', '!app/images/webp/**/*.*'], {base: 'app/images'})
   .pipe(dest('dist/images'))
-}
-
-async function deleteRelatedImg(imgPath) {
-  const ext = path.extname(imgPath);
-  const baseName = path.basename(imgPath, ext);
-  const dir = path.dirname(imgPath);
-
-  const filesToRemove = [
-    path.join(dir, baseName + '.webp')
-  ];
-
-  await deleteAsync(filesToRemove, {force: true});
 }
 // End of optimization of images
 
@@ -127,21 +124,19 @@ async function cleanDist() {
 }
 
 function watcher() {
-  const imagesWatcher = watch(['app/images/**/*.{png,jpeg,jpg,gif,svg,ico}']);
+  const imagesWatcher = watch(['app/images/src/**/*.{png,jpeg,jpg,gif,svg,ico}']);
   
   watch(['app/scss/**/*.scss'], styles);
   watch(['app/fonts/**/*.ttf'], optimizeFonts);
   watch(['app/js/**/*.js', '!app/js/main.min.js'], scripts);
   watch(['app/**/*.html']).on('change', browserSync.reload);
 
-  imagesWatcher.on('change', series(resizeImages, convertToWebp));
-  imagesWatcher.on('add', series(resizeImages, convertToWebp));
-  imagesWatcher.on('unlink', async (imgPath) => {
-    await deleteRelatedImg(imgPath);
-  });
+  imagesWatcher.on('change', series(resizeImages, moveOptimizedImages, convertToWebp, moveWebpImages));
+
+  imagesWatcher.on('add', series(resizeImages, moveOptimizedImages, convertToWebp, moveWebpImages));
 }
 
 export const clean = series(cleanDist);
 export const fonts = series(optimizeFonts);
-export const build = series(cleanDist, moveImages, building);
+export const build = series(cleanDist, transferImages, building);
 export const start = parallel(styles, scripts, browserUpdate, watcher);
