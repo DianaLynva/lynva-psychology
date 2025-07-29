@@ -1,0 +1,25 @@
+$breakpoints: (
+  "mobile-xs": 374px,
+  "mobile-s": 475px,
+  "mobile-m": 576px,
+  "mobile-l": 768px,
+  "tablet": 992px,
+  "tablet-l": 1180px,
+  "desktop": 1280px,
+  "desktop-l": 1440px,
+  "desktop-xl": 1600px,
+);
+
+@mixin media($width, $type: max) {
+  @if map-has-key($breakpoints, $width) {
+    $width: map-get($breakpoints, $width);
+
+    @if $type==min {
+      $width: $width + 1px;
+    }
+
+    @media only screen and (#{$type}-width: $width) {
+      @content;
+    }
+  }
+}

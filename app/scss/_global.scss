@@ -1,14 +1,153 @@
 @import 'vars';
 @import 'mixins';
 @import 'fonts';
+@import 'media';
+
+html,
+body {
+  scroll-behavior: smooth;
+  overscroll-behavior-y: none;
+}
+
+body {
+  position: relative;
+
+  &.overflow {
+    height: 100%;
+    overflow-y: hidden;
+  }
+}
 
 .page {
   height: var(--vh);
   font-family: var(--ff-primary);
   font-weight: var(--fw-bold);
   font-style: normal;
-  font-size: clamp(20px, 1.5vw, 24px);
+  font-size: clamp(20px, 1.2vw, 24px);
   line-height: 1.8;
   letter-spacing: 0.02em; 
   color: var(--color-black);
+  font-optical-sizing: auto;
+
+  &__body {
+    min-width: 320px;
+    min-height: var(--vh);
+  }
+}
+
+.container {
+  max-width: var(--container-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--content-offset);
+}
+
+.main {
+  padding-top: var(--header-height);
+}
+
+.link {
+  position: relative;
+  z-index: 0;
+  background-color: transparent;
+
+  &::before {
+    position: absolute;
+    content: '';
+    z-index: -1;
+    top: -4px;
+    bottom: -4px;
+    left: -6px;
+    right: -6px;
+    background-color: transparent;
+    transform: rotate(-2deg);
+    transition: background-color 0.4s ease-in-out;
+  }
+
+  &:hover::before {
+    background-color: var(--color-orange-300);
+  }
+}
+
+.burger {
+  position: relative;
+  display: none;
+  width: 32px;
+  height: 26px;
+  padding: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+  border: none;
+
+  span,
+  &::before,
+  &::after {
+    display: block;
+    height: 3px;
+    background-color: var(--color-black);
+    border-radius: var(--radius-small);
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    transition: transform 0.4s ease-in-out;
+  }
+
+  span {
+    transition: background-color 0.4s ease-in-out;
+  }
+
+  &::before {
+    top: 0;
+  }
+
+  &::after {
+    bottom: 0;
+  }
+}
+
+.burger.open {
+  span {
+    background-color: transparent;
+  }
+
+  &::before {
+    transform: rotate(35deg) translate(5px, 9px);
+  }
+
+  &::after {
+    transform: rotate(-35deg) translate(6px, -11px);
+  }
+}
+
+.overlay {
+  position: absolute;
+  z-index: -100;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  background-color: transparent;
+  transition: background-color 0.3s ease-in-out,
+    filter 0.4s ease-in;
+
+  &.active {
+    background-color: var(--color-black-25);
+    backdrop-filter: blur(2px);
+    z-index: 1;
+    pointer-events: all;
+  }  
+}
+
+@include media(tablet, max) {
+  .burger {
+    display: block;
+  }
 }
