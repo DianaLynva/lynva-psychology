@@ -123,6 +123,77 @@
   }
 }
 
+.patients {
+  h2.title {
+    margin-bottom: clamp(30px, 5.3vw, 75px);
+  }
+}
+
+.list {
+  &__item {
+    display: flex;
+    gap: 0 clamp(20px, 6.2vw, 88px);
+    border: 2px solid var(--color-orange-500);
+    border-radius: var(--radius-main);
+    overflow: hidden;
+
+    &:not(:last-child) {
+      margin-bottom: clamp(30px, 6vw, 85px);
+    }
+
+    &:nth-child(even) {
+      flex-direction: row-reverse;
+
+      .list__item-title {
+        border-radius: var(--radius-main) 0 0 var(--radius-main);
+      }
+    }
+  }
+
+  &__item-title,
+  &__item-desc {
+    @include flex-center;
+    flex-direction: column;
+    padding: clamp(20px, 2.8vw, 38px) 10px;
+  }
+
+  &__item-title {
+    max-width: 304px;
+    width: 100%;
+    letter-spacing: 0;
+    line-height: 1.4;
+    color: var(--color-white);
+    text-align: center;
+    background-color: var(--color-orange-500);
+    border-radius: 0 var(--radius-main) var(--radius-main) 0;
+
+    &::first-letter {
+      text-transform: capitalize;
+    }
+  }
+
+  &__item-desc {
+    p {
+      &:not(.accent) {
+        width: 100%;
+      }
+
+      &::first-letter {
+        text-transform: capitalize;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 16px;
+      }
+    }
+
+    .accent {
+      align-self: flex-end;
+    }
+  }
+}
+
+// Start of adaptive tablet and mobile styles
 @include media(tablet-l, max) {
   .hero {
     &__img {
@@ -147,6 +218,7 @@
   }
 
   .nav {
+
     &__inner,
     &__menu {
       display: block;
@@ -183,6 +255,16 @@
       }
     }
   }
+
+  .list {
+    &__item-desc {
+      p {
+        &:not(.accent) {
+          font-weight: var(--fw-medium);
+        }
+      }
+    }
+  }
 }
 
 @include media(mobile-l, max) {
@@ -199,6 +281,28 @@
       width: 50%;
       padding-top: 0;
       transform: translateY(-20%);
+    }
+  }
+
+  .list {
+    &__item {
+      flex-direction: column;
+
+      &:nth-child(even) {
+        flex-direction: column;
+      }
+
+      &:nth-child(even) .list__item-title {
+        border-radius: 0 0 var(--radius-main) var(--radius-main);
+      }
+    }
+
+    &__item-title {
+      max-width: 100%;
+      border-radius: 0 0 var(--radius-main) var(--radius-main);
+    }
+    &__item-desc {
+      text-align: center;
     }
   }
 }
