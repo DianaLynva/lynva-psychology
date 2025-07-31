@@ -21,7 +21,8 @@
     <div class="container">
       <nav class="nav">
         <a class="logo" href="#">
-          <img class="logo__img" src="images/logo.svg" alt="Логотип психіатрині та психотерапевтки Діани Линви" width="334" height="100">
+          <img class="logo__img" src="images/logo.svg" alt="Логотип психіатрині та психотерапевтки Діани Линви"
+            width="334" height="100">
         </a>
 
         <button class="burger" aria-label="Мобільне меню" type="button">
@@ -64,9 +65,28 @@
   </header>
 
   <main class="main">
+    <section class="hero">
+      <div class="hero__background"></div>
+      <div class="container">
+        <div class="hero__inner">
+          <div class="hero__info">
+            <h1 class="title">
+              Онлайн сесії з психотерапевтом —
+              <br>
+              Тут твій простір <span class="accent">для підтримки та змін</span>
+            </h1>
 
+            <a class="btn" href="#form">Записатись</a>
+          </div>
+          <picture class="hero__img">
+            <source srcset="images/hero.webp" type="image/webp">
+            <img src="images/hero.png" alt="Діана Линва - Запис на консультацію" width="488" loading="lazy">
+          </picture>
+        </div>
+      </div>
+    </section>
   </main>
-  
+
   <div class="overlay"></div>
   <script src="js/main.min.js"></script>
 </body>

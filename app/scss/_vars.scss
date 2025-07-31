@@ -1,10 +1,12 @@
+@import 'media';
+
 :root {
-  --content-width: 1300px;
+  --content-width: 1255px;
   --content-offset: 16px;
   --container-width: calc(var(--content-width) + (var(--content-offset) *2));
 
   //font-family
-  --ff-primary: "Inter";
+  --ff-primary: 'Inter', sans-serif;
 
   //font-weight
   --fw-regular: 400;
@@ -27,10 +29,22 @@
 
   //shadows
   --shadow-gray: 0px -4px 4px 0px var(--color-black-25);
+  --shadow-gray-bottom: 0px 10px 4px 0px var(--color-black-25);
   --shadow-orange: 0px 10px 4px 0px var(--color-orange-400);
 
   //radius
   --radius-full: 50%;
   --radius-main: 30px;
   --radius-small: 6px;
+
+  //clip pathes
+  --figure-hero: polygon(0 0, 100% 0%, 100% 55%, 0 94%);
+
+  @include media(tablet-l, max) {
+    --figure-hero: polygon(0 0, 100% 0%, 100% 58%, 0 90%);
+  }
+
+  @include media(mobile-s, max) {
+    --figure-hero: polygon(0 0, 100% 0%, 100% 68%, 0 82%);
+  }
 }
