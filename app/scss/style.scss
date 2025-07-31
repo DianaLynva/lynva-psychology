@@ -9,9 +9,10 @@
   position: fixed;
   z-index: 10;
   width: 100%;
-  padding: clamp(16px, 1.4vh, 32px) 0;
+  padding: clamp(16px, 2.2vw, 30px) 0 clamp(16px, 2.2vw, 26px);
   background-color: var(--color-white);
   transition: transform 0.3s ease-out;
+  border-bottom: 4px solid transparent;
 
   &.hide {
     transform: translateY(-100%);
@@ -36,12 +37,12 @@
 }
 
 .nav {
-  @include flex-space;
+  @include flex-center-sb;
   gap: clamp(16px, 6vw, 80px);
 
   &__inner,
   &__menu {
-    @include flex-space;
+    @include flex-center-sb;
   }
 
   &__inner {
@@ -64,13 +65,70 @@
     font-size: clamp(18px, 1.5vw, 21px);
     color: var(--color-black);
     line-height: 1;
-    letter-spacing: 0;
+    white-space: nowrap;
   }
 }
 
 .main {
   min-height: 500vh;
-  background-color: rgb(74, 74, 140);
+}
+
+.hero {
+  position: relative;
+  padding: clamp(40px, 8.5vw, 122px) 0 16px;
+
+  &__background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    background-color: var(--color-blue);
+    clip-path: var(--figure-hero);
+    overflow-x: hidden;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      left: -40%;
+      right: -40%;
+      height: 44px;
+      transform: rotate(-12deg);
+      background-color: var(--color-blue);
+      box-shadow: var(--shadow-gray);
+    }
+
+    &::before {
+      bottom: 31%;
+    }
+
+    &::after {
+      bottom: 25%;
+    }
+  }
+
+  &__inner {
+    @include flex-between;
+  }
+
+  &__img {
+    align-self: flex-end;
+    padding-top: clamp(40px, 7vw, 94px);
+  }
+
+  .title {
+    margin-bottom: clamp(30px, 4.5vw, 60px);
+  }
+}
+
+@include media(tablet-l, max) {
+  .hero {
+    &__img {
+      width: 36%;
+    }
+  }
 }
 
 @include media(tablet, max) {
@@ -85,11 +143,10 @@
   }
 
   .logo {
-    width: 40%;
+    width: 25%;
   }
 
   .nav {
-
     &__inner,
     &__menu {
       display: block;
@@ -128,7 +185,31 @@
   }
 }
 
+@include media(mobile-l, max) {
+  .hero {
+    &__background {
+      bottom: 20%;
+    }
+
+    &__inner {
+      flex-direction: column;
+    }
+
+    &__img {
+      width: 50%;
+      padding-top: 0;
+      transform: translateY(-20%);
+    }
+  }
+}
+
 @include media(mobile-m, max) {
+  .header {
+    .logo {
+      width: 40%;
+    }
+  }
+
   .nav {
     &__inner {
       width: 60%;
@@ -147,6 +228,21 @@
       &.open {
         border-top: 3px solid var(--color-orange-500)
       }
+    }
+  }
+
+  .hero {
+    &__inner {
+      align-items: center;
+    }
+
+    &__info {
+      margin-bottom: 40px;
+    }
+
+    &__img {
+      transform: translateY(0);
+      width: 100%;
     }
   }
 }
