@@ -23,7 +23,7 @@ body {
   font-family: var(--ff-primary);
   font-weight: var(--fw-bold);
   font-style: normal;
-  font-size: clamp(20px, 1.2vw, 24px);
+  font-size: clamp(18px, 1.2vw, 24px);
   line-height: 1.8;
   letter-spacing: 0.04em; 
   color: var(--color-black);
@@ -129,6 +129,14 @@ body {
 
 .title {
   font-size: clamp(26px, 2.7vw, 38px);
+
+  &--centered {
+    text-align: center;
+  }
+
+  &--uppercase {
+    text-transform: uppercase;
+  }
 }
 
 .accent {
@@ -146,6 +154,10 @@ body {
     width: 94%;
     transform: translateX(-50%);
     background-color: var(--color-orange-500);
+  }
+
+  &--uppercase {
+    text-transform: uppercase;
   }
 }
 
@@ -175,7 +187,7 @@ body {
 }
 
 .overlay {
-  position: absolute;
+  position: fixed;
   z-index: -100;
   top: 0;
   bottom: 0;

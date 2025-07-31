@@ -34,7 +34,7 @@
 
   //radius
   --radius-full: 50%;
-  --radius-main: 30px;
+  --radius-main: clamp(12px, 2.2vw, 30px);
   --radius-small: 6px;
 
   //clip pathes

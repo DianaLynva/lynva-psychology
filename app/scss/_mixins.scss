@@ -37,3 +37,20 @@
   align-items: center;
   justify-content: space-evenly;
 }
+
+//grid mixins 
+@mixin grid-repeat($col-num: 1, $col-size: auto, $row-num: 1, $row-size: auto) {
+  display: grid;
+
+  @if $col-num !=null and $col-num !=1 {
+    grid-template-columns: repeat(#{$col-num}, #{$col-size});
+  } @else if $col-num ==1 {
+    grid-template-columns: #{$col-size};
+  }
+
+  @if $row-num !=null and $row-num !=1 {
+    grid-template-rows: repeat(#{$row-num}, #{$row-size});
+  } @else if $row-num ==1 {
+    grid-template-rows: #{$row-size};
+  }
+}
