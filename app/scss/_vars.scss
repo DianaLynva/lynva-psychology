@@ -39,6 +39,7 @@
 
   //clip pathes
   --figure-hero: polygon(0 0, 100% 0%, 100% 55%, 0 94%);
+  --figure-services: polygon(0 0, 100% 24%, 100% 96%, 0 76%);
 
   @include media(tablet-l, max) {
     --figure-hero: polygon(0 0, 100% 0%, 100% 58%, 0 90%);
