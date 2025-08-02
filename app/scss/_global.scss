@@ -25,7 +25,7 @@ body {
   font-style: normal;
   font-size: clamp(18px, 1.2vw, 24px);
   line-height: 1.8;
-  letter-spacing: 0.04em; 
+  letter-spacing: 0.04em;
   color: var(--color-black);
   font-optical-sizing: auto;
   background-color: var(--color-white);
@@ -143,6 +143,7 @@ body {
   position: relative;
   z-index: 1;
   display: inline-block;
+  color: var(--color-white);
 
   &::before {
     content: '';
@@ -158,6 +159,22 @@ body {
 
   &--uppercase {
     text-transform: uppercase;
+  }
+
+  &--black {
+    color: var(--color-black);
+  }
+
+  &--wide {
+    padding: 7px 10px;
+
+    &::before {
+      top: 0;
+      left: 0;
+      transform: translate(0, 0);
+      bottom: 0;
+      width: 100%;
+    }
   }
 }
 
@@ -203,7 +220,7 @@ body {
     backdrop-filter: blur(2px);
     z-index: 1;
     pointer-events: all;
-  }  
+  }
 }
 
 @include media(tablet, max) {
@@ -221,7 +238,7 @@ body {
   }
 
   .accent {
-    &::before {
+    &:not(.accent--wide)::before {
       top: 6px;
       width: 88%;
     }

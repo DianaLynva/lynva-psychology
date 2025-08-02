@@ -39,12 +39,18 @@
 
   //clip pathes
   --figure-hero: polygon(0 0, 100% 0%, 100% 55%, 0 94%);
+  --figure-services: polygon(0 0, 100% 24%, 100% 96%, 0 76%);
 
   @include media(tablet-l, max) {
     --figure-hero: polygon(0 0, 100% 0%, 100% 58%, 0 90%);
   }
 
+  @include media(mobile-l, max) {
+    --figure-services: polygon(0 0, 100% 14%, 100% 84%, 0 74%);
+  }
+
   @include media(mobile-s, max) {
     --figure-hero: polygon(0 0, 100% 0%, 100% 68%, 0 82%);
+    --figure-services: polygon(0 0, 100% 10%, 100% 78%, 0 74%);
   }
 }

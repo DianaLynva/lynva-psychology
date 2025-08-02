@@ -74,38 +74,21 @@
 }
 
 .hero {
-  position: relative;
-  padding: clamp(40px, 8.5vw, 122px) 0 16px;
+  padding: clamp(50px, 8.5vw, 122px) 0 16px;
 
-  &__background {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: -1;
-    background-color: var(--color-blue);
-    clip-path: var(--figure-hero);
-    overflow-x: hidden;
+  .decorated {
+    &__background {
+      top: 0;
+      bottom: 0;
+      clip-path: var(--figure-hero);
 
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-      left: -40%;
-      right: -40%;
-      height: 44px;
-      transform: rotate(-12deg);
-      background-color: var(--color-blue);
-      box-shadow: var(--shadow-gray);
-    }
+      &::before {
+        bottom: 31%;
+      }
 
-    &::before {
-      bottom: 31%;
-    }
-
-    &::after {
-      bottom: 25%;
+      &::after {
+        bottom: 25%;
+      }
     }
   }
 
@@ -119,11 +102,13 @@
   }
 
   .title {
-    margin-bottom: clamp(30px, 4.5vw, 60px);
+    margin-bottom: clamp(40px, 4.5vw, 60px);
   }
 }
 
 .patients {
+  padding-bottom: clamp(40px, 8.5vw, 122px);
+
   h2.title {
     margin-bottom: clamp(30px, 5.3vw, 75px);
   }
@@ -154,7 +139,7 @@
   &__item-desc {
     @include flex-center;
     flex-direction: column;
-    padding: clamp(20px, 2.8vw, 38px) 10px;
+    padding: clamp(20px, 2.8vw, 38px) clamp(10px, 1.2vw, 16px);
   }
 
   &__item-title {
@@ -193,11 +178,142 @@
   }
 }
 
+.services {
+  position: relative;
+  padding: clamp(40px, 8.5vw, 122px) 0 120px;
+
+  .decorated {
+    &__background {
+      top: 10%;
+      bottom: -20%;
+      clip-path: var(--figure-services);
+
+      &::before {
+        bottom: 18%;
+      }
+
+      &::after {
+        bottom: 14%;
+      }
+    }
+  }
+
+  &__inner {
+    @include flex-between;
+    position: relative;
+    padding-top: clamp(40px, 15.6vw, 224px);
+  }
+
+  &__img {
+    position: absolute;
+    right: 0;
+    transform: translateY(clamp(-366px, -25.6vw, -80px));
+  }
+
+  .title {
+    margin-bottom: clamp(40px, 6.6vw, 96px);
+  }
+
+  &__info {
+    width: 100%;
+    padding-right: clamp(16px, 3vw, 40px);
+  }
+
+  &__list {
+    max-width: 866px;
+    width: 100%;
+    margin-bottom: clamp(30px, 4.5vw, 60px);
+    padding-left: clamp(30px, 4.6vw, 66px);
+  }
+
+  &__item,
+  &__item * {
+    color: var(--color-dark);
+    font-size: clamp(18px, 2vw, 24px);
+    letter-spacing: 0.034rem;
+  }
+
+  &__item {
+    padding: 18px 0 20px;
+
+    &:not(:last-of-type) {
+      border-bottom: 2px solid var(--color-orange-500);
+    }
+  }
+
+  &__accent {
+    float: right;
+    font-size: clamp(18px, 2vw, 24px);
+    letter-spacing: 0.034rem;
+  }
+}
+
+.decorated {
+  position: relative;
+
+  &__background {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    background-color: var(--color-blue);
+    overflow-x: hidden;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      left: -40%;
+      right: -40%;
+      height: 44px;
+      background-color: var(--color-blue);
+      box-shadow: var(--shadow-gray);
+    }
+  }
+
+  &--right {
+
+    .decorated__background::before,
+    .decorated__background::after {
+      transform: rotate(-12deg);
+    }
+  }
+
+  &--left {
+
+    .decorated__background::before,
+    .decorated__background::after {
+      transform: rotate(12deg);
+    }
+  }
+}
+
 // Start of adaptive tablet and mobile styles
 @include media(tablet-l, max) {
-  .hero {
+
+  .hero,
+  .services {
     &__img {
       width: 36%;
+    }
+  }
+
+  .services {
+    &__info {
+      padding-right: 0;
+    }
+
+    .title {
+      margin-bottom: clamp(16px, 4.5vw, 60px);
+    }
+
+    &__list {
+      width: 60%;
+      padding-left: 0;
+    }
+
+    &__img {
+      transform: translateY(clamp(-206px, -27vw, -80px));
     }
   }
 }
@@ -265,6 +381,16 @@
       }
     }
   }
+
+  .hero {
+    padding: clamp(50px, 8.5vw, 122px) 0;
+  }
+
+  .services {
+    &__img {
+      transform: translateY(clamp(-150px, -16vw, -80px));
+    }
+  }
 }
 
 @include media(mobile-l, max) {
@@ -301,8 +427,41 @@
       max-width: 100%;
       border-radius: 0 0 var(--radius-main) var(--radius-main);
     }
+
     &__item-desc {
       text-align: center;
+    }
+  }
+
+  .services {
+    &__inner {
+      flex-direction: column-reverse;
+      padding-top: 0;
+    }
+
+    &__info {
+      transform: translateY(-14%);
+    }
+
+    &__list {
+      width: 100%;
+    }
+
+    &__img {
+      position: static;
+      width: 50%;
+      align-self: flex-end;
+      transform: translateY(0);
+    }
+
+    .decorated {
+      &__background::before {
+        bottom: 23%;
+      }
+
+      &__background::after {
+        bottom: 20%;
+      }
     }
   }
 }
@@ -316,6 +475,16 @@
 
   .nav {
     &__inner {
+      width: 60%;
+    }
+  }
+
+  .services {
+    &__info {
+      transform: translateY(0);
+    }
+
+    &__img {
       width: 60%;
     }
   }
@@ -347,6 +516,43 @@
     &__img {
       transform: translateY(0);
       width: 100%;
+    }
+  }
+
+  .services {
+    &__inner {
+      gap: 40px;
+    }
+
+    &__img {
+      width: 100%;
+    }
+
+    &__accent {
+      display: block;
+      max-width: fit-content;
+      margin: 0 auto;
+      float: none;
+    }
+
+    &__item *,
+    &__accent {
+      text-align: center;
+      letter-spacing: 0;
+    }
+
+    &__item *:not(h3) {
+      font-weight: var(--fw-medium);
+    }
+
+    .decorated {
+      &__background::before {
+        bottom: 25%;
+      }
+
+      &__background::after {
+        bottom: 23%;
+      }
     }
   }
 }
