@@ -238,7 +238,7 @@ body {
   }
 
   .accent {
-    &::before {
+    &:not(.accent--wide)::before {
       top: 6px;
       width: 88%;
     }
